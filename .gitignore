@@ -1,3 +1,110 @@
 /build/
 /.idea/
 /.gradle/
+all-tests/Lab 1/Add with more negative numbers.crow-test.md
+all-tests/Lab 1/Add with negativity.crow-test.md
+all-tests/Lab 1/Adding 2 variables - Succeeds.crow-test.md
+all-tests/Lab 1/Assign declared variable.crow-test.md
+all-tests/Lab 1/associativity for - works correctly.crow-test.md
+all-tests/Lab 1/Basic arithmetics.crow-test.md
+all-tests/Lab 1/Basic program execution.crow-test.md
+all-tests/Lab 1/Comments - Succeeds.crow-test.md
+all-tests/Lab 1/Compute fibonacci get rewarded with FPE.crow-test.md
+all-tests/Lab 1/Constant maximum value hex number.crow-test.md
+all-tests/Lab 1/Constant overflow in decimal literal.crow-test.md
+all-tests/Lab 1/Constant overflow.crow-test.md
+all-tests/Lab 1/Counting is hard.crow-test.md
+all-tests/Lab 1/Declaration missing.crow-test.md
+all-tests/Lab 1/declaration without initalisation.crow-test.md
+all-tests/Lab 1/Declare and initialize variable.crow-test.md
+all-tests/Lab 1/Div with more negative numbers.crow-test.md
+all-tests/Lab 1/Div with negative numbers II.crow-test.md
+all-tests/Lab 1/Div with negative numbers.crow-test.md
+all-tests/Lab 1/Divide by zero (again).crow-test.md
+all-tests/Lab 1/Divide Exception by Overflow.crow-test.md
+all-tests/Lab 1/Divide min_int by -1.crow-test.md
+all-tests/Lab 1/Division by 0 - Runtime error.crow-test.md
+all-tests/Lab 1/Division by zero (directly).crow-test.md
+all-tests/Lab 1/Division by zero after return statement.crow-test.md
+all-tests/Lab 1/Division by zero raises runtime error.crow-test.md
+all-tests/Lab 1/Division by Zero.crow-test.md
+all-tests/Lab 1/Division by zero.crow-test.md
+all-tests/Lab 1/Division INT_MIN by -1 - Runtime error.crow-test.md
+all-tests/Lab 1/Division of MIN_INT by -1.crow-test.md
+all-tests/Lab 1/Divisiony by Zero with variable.crow-test.md
+all-tests/Lab 1/divison by 0.crow-test.md
+all-tests/Lab 1/double zero.crow-test.md
+all-tests/Lab 1/Empty program.crow-test.md
+all-tests/Lab 1/empty statement is not allowed.crow-test.md
+all-tests/Lab 1/Ente should not compile.crow-test.md
+all-tests/Lab 1/Fibonacci.crow-test.md
+all-tests/Lab 1/FIRST TEST.crow-test.md
+all-tests/Lab 1/Illegal Comment Merging.crow-test.md
+all-tests/Lab 1/Illegal keyword usage.crow-test.md
+all-tests/Lab 1/Im bad at nesting comments.crow-test.md
+all-tests/Lab 1/Initialize already declared variable.crow-test.md
+all-tests/Lab 1/Invalid decnum.crow-test.md
+all-tests/Lab 1/Invalid hexnum.crow-test.md
+all-tests/Lab 1/Invalid identifier.crow-test.md
+all-tests/Lab 1/Invalid lvalue.crow-test.md
+all-tests/Lab 1/Invalid main method.crow-test.md
+all-tests/Lab 1/Invalid variable name - Fails Parsing.crow-test.md
+all-tests/Lab 1/Kurzes Programm.crow-test.md
+all-tests/Lab 1/Lost my keys.crow-test.md
+all-tests/Lab 1/Loyal div by 0.crow-test.md
+all-tests/Lab 1/Main missing return.crow-test.md
+all-tests/Lab 1/Many brackets.crow-test.md
+all-tests/Lab 1/Missing Bracket due to Comment.crow-test.md
+all-tests/Lab 1/Missing main method.crow-test.md
+all-tests/Lab 1/Missing semicolon - Parsing Error.crow-test.md
+all-tests/Lab 1/Missing variable definition.crow-test.md
+all-tests/Lab 1/Mittellanges Programm.crow-test.md
+all-tests/Lab 1/Mix hex and decimal.crow-test.md
+all-tests/Lab 1/mod 0 generates exception.crow-test.md
+all-tests/Lab 1/Mod with more negative numbers.crow-test.md
+all-tests/Lab 1/Mod with negative numbers II.crow-test.md
+all-tests/Lab 1/Mod with Negative Numbers.crow-test.md
+all-tests/Lab 1/Modulo by Zero.crow-test.md
+all-tests/Lab 1/Modulo does not prevent large constants.crow-test.md
+all-tests/Lab 1/Modulo Overflow.crow-test.md
+all-tests/Lab 1/Modulo Zero.crow-test.md
+all-tests/Lab 1/More complex working program.crow-test.md
+all-tests/Lab 1/Mulitply 2 variables.crow-test.md
+all-tests/Lab 1/Multiple return statements.crow-test.md
+all-tests/Lab 1/Multiply smallest int with negative 1.crow-test.md
+all-tests/Lab 1/Multiplying variables.crow-test.md
+all-tests/Lab 1/Nested declaration.crow-test.md
+all-tests/Lab 1/nested multline comments.crow-test.md
+all-tests/Lab 1/Nesting comments is fun.crow-test.md
+all-tests/Lab 1/No expression as lvalue.crow-test.md
+all-tests/Lab 1/No return statement.crow-test.md
+all-tests/Lab 1/Number with leading zeros.crow-test.md
+all-tests/Lab 1/operation modulo zero.crow-test.md
+all-tests/Lab 1/Operator precedence.crow-test.md
+all-tests/Lab 1/Reassign variables - Succeeds.crow-test.md
+all-tests/Lab 1/Redeclaration - Semantic Analysis Error.crow-test.md
+all-tests/Lab 1/Reference variable without assignment.crow-test.md
+all-tests/Lab 1/Repeated unary operator.crow-test.md
+all-tests/Lab 1/Return variable.crow-test.md
+all-tests/Lab 1/Runtime Error by Overflow.crow-test.md
+all-tests/Lab 1/SImple Addition Programm.crow-test.md
+all-tests/Lab 1/Simple addition.crow-test.md
+all-tests/Lab 1/Simple division.crow-test.md
+all-tests/Lab 1/Simple increment.crow-test.md
+all-tests/Lab 1/Slightly longer simple programm.crow-test.md
+all-tests/Lab 1/Someone forgot some trailing junk.crow-test.md
+all-tests/Lab 1/Subtract variables.crow-test.md
+all-tests/Lab 1/Test Assignment Operator - Success.crow-test.md
+all-tests/Lab 1/Test Variable Name - Success.crow-test.md
+all-tests/Lab 1/Uninitialized return.crow-test.md
+all-tests/Lab 1/Use variable without declaration.crow-test.md
+all-tests/Lab 1/Uses more registers.crow-test.md
+all-tests/Lab 1/Using reserved keyword as variable name.crow-test.md
+all-tests/Lab 1/Variable already declared.crow-test.md
+all-tests/Lab 1/void as variable name.crow-test.md
+all-tests/Lab 1/Wrap around from MAX_INT to MIN_INT.crow-test.md
+all-tests/Lab 1/Wrong Declaration.crow-test.md
+all-tests/Lab 1/Ze easy hexagon.crow-test.md
+all-tests/Lab 1/Ze final challenge.crow-test.md
+crow-client-linux
+res
