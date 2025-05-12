@@ -1,9 +1,19 @@
 package edu.kit.kastel.vads.compiler;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.regalloc.InstructionInfo;
+import edu.kit.kastel.vads.compiler.backend.regalloc.Linearizer;
+import edu.kit.kastel.vads.compiler.backend.regalloc.LivenessAnalyzer;
 import edu.kit.kastel.vads.compiler.ir.IrGraph;
 import edu.kit.kastel.vads.compiler.ir.SsaTranslation;
 import edu.kit.kastel.vads.compiler.ir.optimize.LocalValueNumbering;
+import edu.kit.kastel.vads.compiler.ir.util.GraphVizPrinter;
 import edu.kit.kastel.vads.compiler.ir.util.YCompPrinter;
 import edu.kit.kastel.vads.compiler.lexer.Lexer;
 import edu.kit.kastel.vads.compiler.parser.ParseException;
@@ -13,11 +23,6 @@ import edu.kit.kastel.vads.compiler.parser.ast.FunctionTree;
 import edu.kit.kastel.vads.compiler.parser.ast.ProgramTree;
 import edu.kit.kastel.vads.compiler.semantic.SemanticAnalysis;
 import edu.kit.kastel.vads.compiler.semantic.SemanticException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -46,6 +51,23 @@ public class Main {
             Files.createDirectory(tmp);
             for (IrGraph graph : graphs) {
                 dumpGraph(graph, tmp, "before-codegen");
+            }
+        }
+
+        for (IrGraph irGraph : graphs) {
+            System.out.println(GraphVizPrinter.print(irGraph));
+            Linearizer linearizer = new Linearizer();
+            var linear = linearizer.Linearize(irGraph);
+
+            System.out.println("Linear:");
+            for (InstructionInfo inst : linear) {
+                System.out.println(inst.toString());
+            }
+
+            System.out.println("Liveness:");
+            var live = new LivenessAnalyzer().GetLiveness(linear);
+            for (var liveness : live) {
+                System.out.println(liveness.toString());
             }
         }
 
