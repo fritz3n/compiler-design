@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import edu.kit.kastel.vads.compiler.ir.node.Node;
 
-public record InstructionInfo(Node source, Register defines, List<Register> uses) {
+public record InstructionInfo(Node source, Reference defines, List<Reference> uses) {
     
     @Override
     public final String toString() {

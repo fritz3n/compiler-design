@@ -3,6 +3,7 @@ int main(){
     int y=23;
     int f = x + y;
     int j = f + y;
-    x = f - y;
+    int o = x * f;
+    x = f - y + o;
     return y+x;
 }

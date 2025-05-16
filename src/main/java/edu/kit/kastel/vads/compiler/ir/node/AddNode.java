@@ -16,4 +16,9 @@ public final class AddNode extends BinaryOperationNode {
     public int hashCode() {
         return commutativeHashCode(this);
     }
+
+    @Override
+    public boolean isCommutative() {
+        return true;
+    }
 }

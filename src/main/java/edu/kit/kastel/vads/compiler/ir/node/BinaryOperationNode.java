@@ -4,6 +4,8 @@ public sealed abstract class BinaryOperationNode extends Node permits AddNode, D
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
+    public abstract boolean isCommutative();
+
     protected BinaryOperationNode(Block block, Node left, Node right) {
         super(block, left, right);
     }
@@ -39,8 +41,8 @@ public sealed abstract class BinaryOperationNode extends Node permits AddNode, D
             return false;
         }
         return obj.getClass() == this.getClass()
-            && this.predecessor(LEFT) == binOp.predecessor(LEFT)
-            && this.predecessor(RIGHT) == binOp.predecessor(RIGHT);
+                && this.predecessor(LEFT) == binOp.predecessor(LEFT)
+                && this.predecessor(RIGHT) == binOp.predecessor(RIGHT);
     }
 
     @Override

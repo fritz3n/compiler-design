@@ -22,7 +22,7 @@ import edu.kit.kastel.vads.compiler.ir.node.StartNode;
 
 public class Linearizer {
 
-    private Map<Node, Register> defineMapping = new HashMap<>();
+    private final Map<Node, Reference> defineMapping = new HashMap<>();
 
     int id = 0;
 
@@ -49,33 +49,32 @@ public class Linearizer {
             case Phi _ -> throw new UnsupportedOperationException("phi");
             case Block _,ProjNode _,StartNode _ -> {
                 // do nothing, skip line break
-                return;
             }
         }
     }
     
     private void constNode(ConstIntNode node, List<InstructionInfo> instructions) {
-        List<Register> uses = new ArrayList<>();
-        Register defines = new VirtualRegister(id++);
+        List<Reference> uses = new ArrayList<>();
+        Reference defines = new Reference(id++);
         defineMapping.put(node, defines);
         
         instructions.add(new InstructionInfo(node, defines, uses));
     }
 
     private void returnNode(ReturnNode node, List<InstructionInfo> instructions) {
-        List<Register> uses = new ArrayList<>();
+        List<Reference> uses = new ArrayList<>();
         uses.add(defineMapping.get(predecessorSkipProj(node, ReturnNode.RESULT)));
-        var defines = new PredefinedRegister("eax");
+        var defines = new Reference(id++, true);
 
         instructions.add(new InstructionInfo(node, defines, uses));
     }
 
     private void binary(BinaryOperationNode node, List<InstructionInfo> instructions) {
-        List<Register> uses = new ArrayList<>();
+        List<Reference> uses = new ArrayList<>();
         uses.add(defineMapping.get(predecessorSkipProj(node, BinaryOperationNode.LEFT)));
         uses.add(defineMapping.get(predecessorSkipProj(node, BinaryOperationNode.RIGHT)));
 
-        Register defines = new VirtualRegister(id++);
+        Reference defines = new Reference(id++);
         defineMapping.put(node, defines);
 
         instructions.add(new InstructionInfo(node, defines, uses));

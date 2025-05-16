@@ -8,7 +8,7 @@
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App",
-            "args": "tests/00.c res"
+            "args": "tests/00.c res",
         },
         {
             "name": "Launch Java: Continuous Mode",
