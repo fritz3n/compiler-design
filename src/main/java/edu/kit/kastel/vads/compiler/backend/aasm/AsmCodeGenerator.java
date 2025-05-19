@@ -97,7 +97,7 @@ public class AsmCodeGenerator {
 
     private void handleDividingBinary(RegisterInstruction instruction, BinaryOperationNode node) {
         emit(AsmType.MOV, instruction.uses().getFirst().toString(), EAX);
-        emit(AsmType.XOR, EDX, EDX);
+        emit(AsmType.CLTD);
         emit(AsmType.DIV, instruction.uses().getLast().toString());
 
         if (node instanceof DivNode) {

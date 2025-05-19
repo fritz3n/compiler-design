@@ -9,4 +9,5 @@ public enum AsmType {
     ADD,
     SUB,
     RET,
+    CLTD,
 }
