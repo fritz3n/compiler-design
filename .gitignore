@@ -4,3 +4,5 @@
 all-tests/
 res
 crow-client-linux
+temp.s
+tests/00.c

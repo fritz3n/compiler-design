@@ -4,7 +4,7 @@ public enum AsmType {
     COMMENT,
     MOV,
     XOR,
-    DIV,
+    IDIV,
     MUL,
     ADD,
     SUB,
