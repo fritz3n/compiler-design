@@ -30,7 +30,8 @@ public class CodeGenerator {
         for (IrGraph graph : program) {
             AsmRegisterAllocator allocator = new AsmRegisterAllocator();
             var linear = new Linearizer().Linearize(graph);
-            Map<Node, Register> registers = allocator.allocateRegisters(linear);
+            var refRegMap = allocator.allocateRegisters(linear);
+            Map<Node, Register> registers = AsmRegisterAllocator.getNodeMap(linear, refRegMap);
             builder.append("function ")
                     .append(graph.name())
                     .append(" {\n");

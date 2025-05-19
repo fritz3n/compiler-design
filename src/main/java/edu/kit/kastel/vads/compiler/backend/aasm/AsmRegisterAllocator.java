@@ -13,20 +13,17 @@ import edu.kit.kastel.vads.compiler.ir.node.Node;
 
 public class AsmRegisterAllocator {
     private static final AsmRegister[] registers = new AsmRegister[] {
-            new AsmRegister("r8"),
-            new AsmRegister("r9"),
-            new AsmRegister("r10"),
-            new AsmRegister("r11"),
-            new AsmRegister("r12"),
-            new AsmRegister("r13"),
-            new AsmRegister("r14"),
-            new AsmRegister("r15"),
-            new AsmRegister("rcx"),
-            new AsmRegister("rdx"),
+            new AsmRegister("r8d"),
+            new AsmRegister("r9d"),
+            new AsmRegister("r10d"),
+            new AsmRegister("r11d"),
+            new AsmRegister("r12d"),
+            new AsmRegister("r13d"),
+            new AsmRegister("r14d"),
     };
 
-    public Map<Node, Register> allocateRegisters(List<InstructionInfo> instructions) {
-        Map<Node, Register> registerMapping = new HashMap<>();
+    public Map<Reference, Register> allocateRegisters(List<InstructionInfo> instructions) {
+        Map<Reference, Register> registerMapping = new HashMap<>();
         var liveness = LivenessAnalyzer.GetLiveness(instructions);
         var interferenceGraph = InterferenceGraphAlgorithms.GetInterferenceGraph(liveness);
         var ordering = InterferenceGraphAlgorithms.GetSEOrdering(interferenceGraph);
@@ -34,14 +31,27 @@ public class AsmRegisterAllocator {
 
         for (InstructionInfo instruction : instructions) {
             Reference defines = instruction.defines();
-            if (defines.isFixed())
+            if (defines.isFixed()) {
+                registerMapping.put(defines, new AsmRegister(""));
                 continue;
+            }
             Integer color = colors.get(defines);
             Register register = getRegisterForColor(color);
-            registerMapping.put(instruction.source(), register);
+            registerMapping.put(instruction.defines(), register);
         }
 
         return registerMapping;
+    }
+
+    public static Map<Node, Register> getNodeMap(List<InstructionInfo> instructions,
+            Map<Reference, Register> registerMap) {
+        Map<Node, Register> nodeMap = new HashMap<>();
+        for (InstructionInfo instruction : instructions) {
+            var register = registerMap.get(instruction.defines());
+            nodeMap.put(instruction.source(), register);
+        }
+
+        return nodeMap;
     }
 
     private Register getRegisterForColor(int color) {

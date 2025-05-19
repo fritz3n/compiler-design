@@ -3,10 +3,12 @@ package edu.kit.kastel.vads.compiler;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kit.kastel.vads.compiler.backend.aasm.CodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.aasm.AsmCodeGenerator;
+import edu.kit.kastel.vads.compiler.backend.aasm.AsmRegisterAllocator;
 import edu.kit.kastel.vads.compiler.backend.regalloc.InstructionInfo;
 import edu.kit.kastel.vads.compiler.backend.regalloc.Linearizer;
 import edu.kit.kastel.vads.compiler.backend.regalloc.LivenessAnalyzer;
@@ -25,7 +27,10 @@ import edu.kit.kastel.vads.compiler.semantic.SemanticAnalysis;
 import edu.kit.kastel.vads.compiler.semantic.SemanticException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+
+    private static final String TEMP_PATH = "temp.s";
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         if (args.length != 2) {
             System.err.println("Invalid arguments: Expected one input file and one output file");
             System.exit(3);
@@ -69,11 +74,22 @@ public class Main {
             for (var liveness : live) {
                 System.out.println(liveness.toString());
             }
+
+            AsmRegisterAllocator allocator = new AsmRegisterAllocator();
+            var registerMap = allocator.allocateRegisters(linear);
+
+            System.out.println("Assembly:");
+            var asmGenerator = new AsmCodeGenerator();
+            String assembly = asmGenerator.generateCode(linear, registerMap);
+
+            System.out.print(assembly);
+            Files.writeString(Paths.get(TEMP_PATH), assembly);
+
+            ProcessBuilder builder = new ProcessBuilder("gcc", "-ggdb", TEMP_PATH, "-o", output.toString());
+            builder.inheritIO();
+            builder.start().waitFor();
         }
 
-        // TODO: generate assembly and invoke gcc instead of generating abstract assembly
-        String s = new CodeGenerator().generateCode(graphs);
-        Files.writeString(output, s);
     }
 
     private static ProgramTree lexAndParse(Path input) throws IOException {
@@ -91,8 +107,7 @@ public class Main {
 
     private static void dumpGraph(IrGraph graph, Path path, String key) throws IOException {
         Files.writeString(
-            path.resolve(graph.name() + "-" + key + ".vcg"),
-            YCompPrinter.print(graph)
-        );
+                path.resolve(graph.name() + "-" + key + ".vcg"),
+                YCompPrinter.print(graph));
     }
 }
