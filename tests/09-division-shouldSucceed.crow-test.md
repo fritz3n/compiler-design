@@ -6,13 +6,6 @@
 ## ProgramArgumentFile
 
 ```
-# Executing your compiler
-
-## ShouldSucceed
-
-## ProgramArgumentFile
-
-```
 int main(){
     return 5/2;
 }
@@ -24,36 +17,6 @@ int main(){
 
 ```
 2
-```
-
-# Meta
-
-## Creator
-
-```
-flamboyant-citril
-```
-
-## Admin Authored
-
-```
-false
-```
-
-## Hash
-
-```
-sadmkosfsufiod8dug8afg
-```
-
-```
-
-# Executing the compiled binary
-
-## ExitCode
-
-```
-0
 ```
 
 # Meta
