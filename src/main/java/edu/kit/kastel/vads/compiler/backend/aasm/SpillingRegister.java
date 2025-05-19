@@ -27,6 +27,6 @@ public record SpillingRegister(int offset) implements Register {
 
     @Override
     public final String toString() {
-        return "-" + offset() + "(%" + AsmRegister.STACK_POINTER + ")";
+        return "-" + (offset() * 4) + "(%" + AsmRegister.STACK_POINTER + ")";
     }
 }

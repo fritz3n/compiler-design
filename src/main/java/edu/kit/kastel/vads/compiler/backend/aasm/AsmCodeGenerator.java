@@ -1,6 +1,5 @@
 package edu.kit.kastel.vads.compiler.backend.aasm;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,18 +25,18 @@ public class AsmCodeGenerator {
     private static final String EAX = "%eax";
     private static final String EDX = "%edx";
     private static final String ASM_PREFIX = """
-            .global main\r
-            .global _main\r
-            .text\r
-            main:\r
-            call _main\r
-            # move the return value into the first argument for the syscall\r
-            movq %rax, %rdi\r
-            # move the exit syscall number into rax\r
-            movq $0x3C, %rax\r
-            syscall\r
-            _main:\r
-            # your generated code here\r""";
+            .global main
+            .global _main
+            .text
+            main:
+            call _main
+            # move the return value into the first argument for the syscall
+            movq %rax, %rdi
+            # move the exit syscall number into rax
+            movq $0x3C, %rax
+            syscall
+            _main:
+            # your generated code here\n""";
 
     private final List<AsmInstruction> asmInstructions = new ArrayList<>();
 

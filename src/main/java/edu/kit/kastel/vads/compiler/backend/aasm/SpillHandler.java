@@ -14,9 +14,9 @@ import edu.kit.kastel.vads.compiler.backend.regalloc.Register;
 
 public class SpillHandler {
     private static final AsmRegister[] spillRegisters = new AsmRegister[] {
-            new AsmRegister("r15"),
-            new AsmRegister("rbx"),
-            new AsmRegister("rcx"),
+            new AsmRegister("r15d"),
+            new AsmRegister("ebx"),
+            new AsmRegister("ecx"),
     };
 
     private final Map<AsmRegister, SpillingRegister> spillMap = new HashMap<>();
@@ -57,6 +57,11 @@ public class SpillHandler {
 
         AsmRegister spillToRegister = Arrays.stream(spillRegisters)
                 .filter(r -> !blockedRegisters.contains(r)).findFirst().get();
+
+        if (spillMap.containsKey(spillToRegister)) {
+            generator.emitComment(spillToRegister + " used by " + spillMap.get(spillToRegister));
+            generator.emitMove(spillToRegister, spillMap.get(spillToRegister));
+        }
 
         spillMap.put(spillToRegister, spillRegister);
         generator.emitMove(spillRegister, spillToRegister);

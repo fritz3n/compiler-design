@@ -59,7 +59,13 @@ public class Main {
             }
         }
 
+        boolean foundMain = false;
+
         for (IrGraph irGraph : graphs) {
+            if (!irGraph.name().equals("main"))
+                continue;
+            foundMain = true;
+
             System.out.println(GraphVizPrinter.print(irGraph));
             Linearizer linearizer = new Linearizer();
             var linear = linearizer.Linearize(irGraph);
@@ -88,6 +94,9 @@ public class Main {
             ProcessBuilder builder = new ProcessBuilder("gcc", "-ggdb", TEMP_PATH, "-o", output.toString());
             builder.inheritIO();
             builder.start().waitFor();
+        }
+        if (!foundMain) {
+            System.exit(42);
         }
 
     }
