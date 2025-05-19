@@ -1,5 +1,52 @@
-int main(){
-    int x=24;
-    int y=23;
-    return y-x+1;
+int main() {
+    // Calculates 13th Fibonacci Number (233)
+    int lastFib = 1;
+    int fib = 1;
+    int temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+
+    temp = fib + lastFib;
+    lastFib = fib;
+    fib = temp;
+    
+    return fib;
 }

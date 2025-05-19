@@ -1,5 +1,6 @@
 package edu.kit.kastel.vads.compiler.backend.aasm;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,15 +51,9 @@ public class AsmCodeGenerator {
 
             emitComment(instruction.toString());
 
-            AsmMoveType moveType = needsMove(instruction);
-            emitComment(moveType.toString());
-
-            if (moveType == AsmMoveType.PreMove)
-                handleMove(instruction);
-
             switch (instruction.source()) {
-                case AddNode add -> handleBinary(instruction, add, AsmType.ADD);
-                case SubNode sub -> handleBinary(instruction, sub, AsmType.SUB);
+                case AddNode add -> handleAddition(instruction);
+                case SubNode _ -> handleSubtraction(instruction);
                 case MulNode mul -> handleMultiply(instruction, mul);
                 case DivNode div -> handleDividingBinary(instruction, div);
                 case ModNode mod -> handleDividingBinary(instruction, mod);
@@ -69,8 +64,6 @@ public class AsmCodeGenerator {
                     // do nothing, skip line break
                 }
             }
-            if (moveType == AsmMoveType.PostMove)
-                handleMove(instruction);
 
             emitComment("--");
         }
@@ -84,8 +77,22 @@ public class AsmCodeGenerator {
         return ASM_PREFIX + builder.toString();
     }
 
-    private void handleBinary(RegisterInstruction instruction, BinaryOperationNode node, AsmType name) {
-        emit(name, instruction.uses().getLast().toString(), instruction.uses().getFirst().toString());
+    private void handleSubtraction(RegisterInstruction instruction) {
+        emit(AsmType.MOV, instruction.uses().getFirst().toString(), EAX);
+        emit(AsmType.MOV, instruction.uses().getLast().toString(), EDX);
+        emit(AsmType.SUB, EDX, EAX);
+        emit(AsmType.MOV, EAX, instruction.defines().toString());
+    }
+
+    private void handleAddition(RegisterInstruction instruction) {
+        if (instruction.defines().equals(instruction.uses().getFirst()))
+            emit(AsmType.ADD, instruction.uses().getLast().toString(), instruction.defines().toString());
+        else if (instruction.defines().equals(instruction.uses().getLast()))
+            emit(AsmType.ADD, instruction.uses().getFirst().toString(), instruction.defines().toString());
+        else {
+            emit(AsmType.MOV, instruction.uses().getLast().toString(), instruction.defines().toString());
+            emit(AsmType.ADD, instruction.uses().getFirst().toString(), instruction.defines().toString());
+        }
     }
 
     private void handleDividingBinary(RegisterInstruction instruction, BinaryOperationNode node) {
@@ -114,28 +121,6 @@ public class AsmCodeGenerator {
 
     private void handleConst(RegisterInstruction instruction, ConstIntNode node) {
         emit(AsmType.MOV, "$" + node.value(), instruction.defines().toString());
-    }
-
-    private static AsmMoveType needsMove(RegisterInstruction instruction) {
-        if (instruction.uses().isEmpty()) {
-            return AsmMoveType.None;
-        }
-        if (instruction.defines().equals(instruction.uses().getFirst())) {
-            return AsmMoveType.None;
-        }
-
-        if (instruction.source() instanceof BinaryOperationNode binary) {
-            if (!binary.isCommutative())
-                return AsmMoveType.None;
-            return instruction.defines().equals(instruction.uses().getLast())
-                    ? AsmMoveType.PostMove
-                    : AsmMoveType.PreMove;
-        }
-        return AsmMoveType.None;
-    }
-
-    private void handleMove(RegisterInstruction instruction) {
-        emitMove(instruction.uses().getFirst(), instruction.defines());
     }
 
     public void emit(AsmType type, String... operands) {
