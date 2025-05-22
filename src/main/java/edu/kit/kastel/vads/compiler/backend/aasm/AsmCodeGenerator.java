@@ -51,7 +51,7 @@ public class AsmCodeGenerator {
             emitComment(instruction.toString());
 
             switch (instruction.source()) {
-                case AddNode add -> handleAddition(instruction);
+                case AddNode _ -> handleAddition(instruction);
                 case SubNode _ -> handleSubtraction(instruction);
                 case MulNode mul -> handleMultiply(instruction, mul);
                 case DivNode div -> handleDividingBinary(instruction, div);

@@ -34,16 +34,20 @@ public class SpillHandler {
     public RegisterInstruction spillForInstruction(InstructionInfo instruction) {
         Set<AsmRegister> blockedRegisters = new HashSet<>();
 
-        AsmRegister defines = spillMaybe(registerMap.get(instruction.defines()), blockedRegisters);
-        List<AsmRegister> uses = instruction.uses().stream().map(r -> spillMaybe(registerMap.get(r), blockedRegisters))
+        AsmRegister defines = spillMaybe(instruction.defines(), blockedRegisters);
+        List<AsmRegister> uses = instruction.uses().stream().map(r -> spillMaybe(r, blockedRegisters))
                 .toList();
 
         return new RegisterInstruction(instruction.source(), defines, uses);
     }
 
-    private AsmRegister spillMaybe(Register register, Set<AsmRegister> blockedRegisters) {
-        if (register instanceof AsmRegister asmRegister)
+    private AsmRegister spillMaybe(Reference reference, Set<AsmRegister> blockedRegisters) {
+        Register register = registerMap.get(reference);
+
+        if (register instanceof AsmRegister asmRegister) {
+            generator.emitComment(reference.toString() + " is AsmRegister " + register.toString());
             return asmRegister;
+        }
 
         if (!(register instanceof SpillingRegister spillRegister))
             throw new InvalidParameterException("can only spill Asm- or SpillingRegisters");
@@ -52,19 +56,26 @@ public class SpillHandler {
             AsmRegister usedRegister = spillMap.keySet().stream().filter(r -> spillMap.get(r).equals(spillRegister))
                     .findFirst().get();
             blockedRegisters.add(usedRegister);
+
+            generator.emitComment(reference.toString() + " with offset " + (spillRegister.offset() * 4)
+                    + " is already spilled into " + usedRegister.toString());
             return usedRegister;
         }
 
         AsmRegister spillToRegister = Arrays.stream(spillRegisters)
                 .filter(r -> !blockedRegisters.contains(r)).findFirst().get();
 
+        generator.emitComment(reference.toString() + " with offset " + (spillRegister.offset() * 4)
+                + " is being spilled into " + spillToRegister.toString());
+
         if (spillMap.containsKey(spillToRegister)) {
-            generator.emitComment(spillToRegister + " used by " + spillMap.get(spillToRegister));
+            generator.emitComment(spillToRegister + " needs to save " + spillMap.get(spillToRegister));
             generator.emitMove(spillToRegister, spillMap.get(spillToRegister));
         }
 
         spillMap.put(spillToRegister, spillRegister);
         generator.emitMove(spillRegister, spillToRegister);
+        blockedRegisters.add(spillToRegister);
         return spillToRegister;
     }
 }
